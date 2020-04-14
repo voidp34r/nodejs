@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Route
+metadata:
+  name: matheus
+spec:
+  host: www.example.com
+  path: "/test" 
+  to:
+    kind: Service
+    name: frontend
+---  
+apiVersion: v1
+kind: Service
+metadata:
+  name: matheus
+  namespace: matheus
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: matheus
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: matheus
+  namespace: matheus
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: matheus
+  template:
+    metadata:
+      labels:
+        app: matheus
+    spec:
+      containers:
+      - name: matheus
+        image: paulbouwer/hello-kubernetes:1.7
+        ports:
+        - containerPort: 8080

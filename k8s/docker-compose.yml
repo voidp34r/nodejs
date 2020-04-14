@@ -1,0 +1,21 @@
+
+version: '2'
+services:
+  ##### the develop image you've build
+  ### don't forget to open ports for your app
+  dev-image:
+    image: voidp34r/dev
+    ports:
+      - "2000:2000"
+      - "50010:50010"
+    privileged: true
+    container_name: devenvcpp
+# mapping your project folder (.) to /home/develop/project
+    volumes:
+      - "./src :/home/develop/"
+    # entrypoint: ["gcc", "-v"]
+    # command: ["gcc", "/home/develop/main.test.cpp"]
+    # entrypoint: ["gcc", "/home/develop/main.cpp"]
+    # entrypoint: ["gcc", "/home/develop/main.cpp", "-o", "main"]
+    # entrypoint: ["g++", "/home/develop/main.cpp",]
+    entrypoint: ["sh", "-c", "bash"]
